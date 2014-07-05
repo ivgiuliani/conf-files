@@ -1,3 +1,5 @@
-*swp
-*pyc
-ENV
+*.swp
+*.pyc
+*.iml
+.idea/
+/ENV*
