@@ -5,6 +5,6 @@ function t
     echo "There are already other tmux sessions active:"
     tmux ls
   else
-    tmux attach
+    tmux new
   end
 end
