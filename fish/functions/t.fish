@@ -1,3 +1,10 @@
 function t
-  tmux $argv;
+  if [ "$argv" ]
+    tmux $argv
+  else if tmux ls > /dev/null ^&1
+    echo "There are already other tmux sessions active:"
+    tmux ls
+  else
+    tmux attach
+  end
 end
