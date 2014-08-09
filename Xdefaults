@@ -18,6 +18,7 @@ URxvt*scrollBar_right:true
 URxvt*scrollBar_floating:true
 URxvt*perl-ext:default,matcher,tabbed
 URxvt*visualBell:true
+URxvt*internalBorder:0
 
 !Xft.dpi: 96
 !Xft.antialias: true
