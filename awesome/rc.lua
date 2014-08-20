@@ -549,7 +549,9 @@ awful.rules.rules = {
     { rule = { instance = "crx_nckgahadagoaajjgafhacjanaoiihapd" },
       properties = {
         floating = true,
-        size_hints_honor = true
+        size_hints_honor = true,
+        width = 450,
+        height = 500
       },
       callback = function(c)
         -- Show to titlebar else you may not know who you're talking with.
