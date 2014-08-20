@@ -41,9 +41,10 @@ theme.taglist_squares_unsel = pathToConfig .. "powerarrowf/icons/square_unsel.pn
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = "/usr/share/awesome/themes/default/submenu.png"
---theme.menu_height = 15
+theme.menu_height = 20
 theme.menu_width  = 150
 theme.menu_border_width = 1
+theme.menu_border_color = "#000000"
 
 -- You can add as many variables as
 -- you wish and access them by using
