@@ -180,23 +180,22 @@ fsicon:set_image(beautiful.fsicon)
 ----{{--| Volume / volume icon |----------
 volume = wibox.widget.textbox()
 vicious.register(volume, vicious.widgets.volume,
-'<span background="#4B3B51" font="' .. font .. '"><span font="' .. font .. '" color="#EEEEEE"> Vol:$1 </span></span>', 0.3, "Master")
+'<span background="#4B3B51" font="' .. font .. '"><span font="' .. font .. '" color="#EEEEEE"> Vol:$1 </span></span>', 10, "Master")
 
-volumeicon = wibox.widget.imagebox()
-vicious.register(volumeicon, vicious.widgets.volume, function(widget, args)
-    local paraone = tonumber(args[1])
-
-    if args[2] == "♩" or paraone == 0 then
-        volumeicon:set_image(beautiful.mute)
-    elseif paraone >= 67 and paraone <= 100 then
-        volumeicon:set_image(beautiful.volhi)
-    elseif paraone >= 33 and paraone <= 66 then
-        volumeicon:set_image(beautiful.volmed)
-    else
-        volumeicon:set_image(beautiful.vollow)
-    end
-
-end, 0.3, "Master")
+--volumeicon = wibox.widget.imagebox()
+--vicious.register(volumeicon, vicious.widgets.volume, function(widget, args)
+--    local paraone = tonumber(args[1])
+--
+--    if args[2] == "♩" or paraone == 0 then
+--        volumeicon:set_image(beautiful.mute)
+--    elseif paraone >= 67 and paraone <= 100 then
+--        volumeicon:set_image(beautiful.volhi)
+--    elseif paraone >= 33 and paraone <= 66 then
+--        volumeicon:set_image(beautiful.volmed)
+--    else
+--        volumeicon:set_image(beautiful.vollow)
+--    end
+--end, 10, "Master")
 
 --{{---| CPU / sensors widget |-----------
 cpuwidget = wibox.widget.textbox()
@@ -219,7 +218,7 @@ vicious.register(tempwidget, vicious.widgets.thermal,
 	function (widget, args)
 		if args[1] > 0 then
 			tzfound = true
-			return '<span background="#4B696D"> ' ..
+			return '<span background="#4B3B51"> ' ..
              '<span font="' .. font .. '" color="#DDDDDD">' ..
              args[1] ..
              'C°</span></span>'
@@ -312,10 +311,8 @@ for s = 1, screen.count() do
     right_layout:add(arr7)
     right_layout:add(cpuicon)
     right_layout:add(cpuwidget)
-    right_layout:add(tempwidget)
     right_layout:add(arr6)
-    right_layout:add(volumeicon)
-    right_layout:add(volume)
+    right_layout:add(tempwidget)
     right_layout:add(arr5)
     right_layout:add(fsicon)
     right_layout:add(fswidget)
