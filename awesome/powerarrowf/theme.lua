@@ -10,12 +10,12 @@ pathToConfig = "/home/ivan/.config/awesome/"
 theme.font          = "Terminus 10"
 
 theme.bg_normal     = "#222222"
-theme.bg_focus      = "#1E2320"
+theme.bg_focus      = "#2e2e2e"
 theme.bg_urgent     = "#3F3F3F"
 theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = "#AAAAAA"
-theme.fg_focus      = "#0099CC"
+theme.fg_focus      = "#FFFFFF"
 theme.fg_urgent     = "#3F3F3F"
 
 theme.border_width  = 1
@@ -43,6 +43,7 @@ theme.taglist_squares_unsel = pathToConfig .. "powerarrowf/icons/square_unsel.pn
 theme.menu_submenu_icon = "/usr/share/awesome/themes/default/submenu.png"
 --theme.menu_height = 15
 theme.menu_width  = 150
+theme.menu_border_width = 1
 
 -- You can add as many variables as
 -- you wish and access them by using
