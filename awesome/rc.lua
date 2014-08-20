@@ -11,6 +11,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local vicious = require("vicious")
+local cheeky = require("cheeky")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
