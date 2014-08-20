@@ -16,7 +16,7 @@ mymainmenu = awful.menu({
     { "VirtualBox", "virtualbox" },
     { "Transmission", "transmission-gtk" },
 		{ "Suspend", "dbus-send --system --print-reply --dest=\"org.freedesktop.UPower\" /org/freedesktop/UPower org.freedesktop.UPower.Suspend"},
-		{ "Hibernate", "dbus-send --system --print-reply --dest=\"org.freedesktop.UPower\" /org/freedesktop/UPower org.freedesktop.UPower.Hibernate"},
+		{ "Hibernate", "/home/ivan/bin/hibernate.sh" },
     { "Logout", awesome.quit }
   }
 })
