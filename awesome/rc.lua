@@ -238,6 +238,21 @@ vicious.register(memwidget, vicious.widgets.mem, '<span background="#777E76" fon
 memicon = wibox.widget.imagebox()
 memicon:set_image(beautiful.mem)
 
+--{{--| Temperature widget |-----------------
+tempwidget = wibox.widget.textbox()
+vicious.register(tempwidget, vicious.widgets.thermal,
+	function (widget, args)
+		if args[1] > 0 then
+			tzfound = true
+			return '<span background="#4B696D"> ' ..
+             '<span font="' .. font .. '" color="#DDDDDD">' ..
+             args[1] ..
+             'C°</span></span>'
+		else return "" 
+		end
+	end
+, 19, "thermal_zone0")
+
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -322,6 +337,7 @@ for s = 1, screen.count() do
     right_layout:add(arr7)
     right_layout:add(cpuicon)
     right_layout:add(cpuwidget)
+    right_layout:add(tempwidget)
     right_layout:add(arr6)
     right_layout:add(volumeicon)
     right_layout:add(volume)
@@ -680,6 +696,29 @@ function run_once(prg,arg_string,pname,screen)
 	end
 end
 
+function clean(string)
+	s = string.gsub(string, '^%s+', '')
+	s = string.gsub(s, '%s+$', '')
+	s = string.gsub(s, '[\n\r]+', ' ')
+	return s
+end
+
+function file_exists(file)
+	local cmd = "/bin/bash -c 'if [ -e " .. file .. " ]; then echo true; fi;'"
+	local fh = io.popen(cmd)
+
+	s = clean(fh:read('*a'))
+
+	if s == 'true' then return true else return nil end
+end
+
+function require_safe(lib)
+	if file_exists(awful.util.getdir("config") .. '/' .. lib ..'.lua') or
+		file_exists(awful.util.getdir("config") .. '/' .. lib) then
+			require(lib)
+	end
+end
+
 -- {{ Turns off the terminal bell }} --
 awful.util.spawn_with_shell("/usr/bin/xset b off")
 
@@ -687,14 +726,4 @@ client.connect_signal("focus",   function(c) c.border_color = beautiful.border_f
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
--- restore the old wallpaper
-run_once("/usr/bin/nitrogen --restore")
-
-run_once("/usr/bin/gnome-settings-daemon")
-run_once("/usr/bin/nm-applet")
-run_once("/usr/bin/dropbox start")
-run_once("/usr/bin/xset s noexpose")
-run_once("/usr/bin/xset s noblank")
-run_once("/usr/bin/xset -dpms")
-run_once("/usr/bin/python /usr/bin/redshift-gtk")
-
+require_safe("autorun")
