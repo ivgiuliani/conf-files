@@ -530,6 +530,8 @@ awful.rules.rules = {
       "MPlayer", "Geeqie", "Gimp"
     } }, properties = { floating = true } },
 
+    { rule_any = { class = { "rxvt-unicode", "urxvt" } }, properties = { size_hints_honor = false } },
+
     { rule = { class = "ROX-Filer" }, properties = { floating = true } },
     { rule = { name = "plugin-container" }, properties = { floating = true } },
     { rule = { name = "sublime_text" }, properties = { floating = true } },
