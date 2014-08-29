@@ -527,14 +527,15 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons } },
     { rule_any = { class = {
-      "MPlayer", "Geeqie", "Gimp"
+      "MPlayer", "Geeqie", "Gimp", "xev", "ROX-Filer"
     } }, properties = { floating = true } },
 
-    { rule_any = { class = { "rxvt-unicode", "urxvt" } }, properties = { size_hints_honor = false } },
+    { rule_any = { name = {
+      "plugin-container", "sublime_text"
+    } }, properties = { floating = true } },
 
-    { rule = { class = "ROX-Filer" }, properties = { floating = true } },
-    { rule = { name = "plugin-container" }, properties = { floating = true } },
-    { rule = { name = "sublime_text" }, properties = { floating = true } },
+    -- rxvt
+    { rule_any = { class = { "rxvt-unicode", "urxvt" } }, properties = { size_hints_honor = false } },
 
     -- Google Keep
     { rule = { instance = "crx_nckgahadagoaajjgafhacjanaoiihapd" }, properties = { floating = true } },
