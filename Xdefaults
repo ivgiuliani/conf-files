@@ -1,44 +1,91 @@
-URxvt*foreground:lightgray
-URxvt*background:black
-URxvt*transparent:true
+! Xft
+Xft.dpi: 96
+Xft.antialias: false
+Xft.rgba: rgb
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.autohint: true
+
+URxvt.depth: 32
+URxvt.geometry: 90x30
+URxvt.transparent: false
+URxvt.fading: 0
+URxvt.visualBell: true
+URxvt.loginShell: false
+URxvt.internalBorder: 3
+URxvt.lineSpace: 0
+URxvt.intensityStyles: false
 URxvt*buffered:true
-URxvt*shading:10
-URxvt*depth:32
-URxvt*font:xft:Ubuntu Mono:pixelsize=14:Regular
-URxvt*boldFont:xft:Ubuntu Mono:pixelsize=14:Bold
-URxvt*italicFont:xft:Ubuntu Mono:pixelsize=14:Italic
-URxvt*boldItalicfont:xft:Ubuntu Mono:pixelsize=14:Bold:Italic
-#URxvt*font: xft:Ubuntu Mono:pixelsize=28:Regular
-#URxvt*boldFont: xft:Ubuntu Mono:pixelsize=28:Bold
-#URxvt*italicFont: xft:Ubuntu Mono:pixelsize=28:Italic
-#URxvt*boldItalicfont: xft:Ubuntu Mono:pixelsize=28:Bold:Italic
+
+! Fonts
+URxvt.allow_bold: true
+URxvt*font:xft:Ubuntu Mono:pixelsize=18:Regular
+URxvt*boldFont:xft:Ubuntu Mono:pixelsize=18:Bold
+URxvt*italicFont:xft:Ubuntu Mono:pixelsize=18:Italic
+URxvt*boldItalicfont:xft:Ubuntu Mono:pixelsize=18:Bold:Italic
+
+! Fix font space
 URxvt*letterSpace: -1
-URxvt*loginShell:false
+
+! Scrollbar
+URxvt.scrollStyle: rxvt
 URxvt*scrollBar_right:true
 URxvt*scrollBar_floating:true
-URxvt*perl-ext:default,matcher,tabbed
-URxvt*visualBell:true
-URxvt*internalBorder:0
 
-!Xft.dpi: 96
-!Xft.antialias: true
-!Xft.rgba: rgb
-!Xft.hinting: true
-!Xft.hintstyle: hintslight
-!Xft.autohint: true
+! Perl extensions
+URxvt.perl-ext-common: default,matcher,tabbed
+URxvt.matcher.button: 1
 
-UXTerm*maximized: true
-UXTerm*toolbar: false
-UXTerm*saveLines: 200
-UXTerm*scrollBar: true
-UXTerm*scrollLines: 10
-UXTerm*rightScrollBar: true
-UXTerm*faceName: Ubuntu Mono:hinting=false:autohint=false
-UXTerm*dynamiccolors: true
-UXTerm*faceSize: 12
-UXTerm*background: black
-UXTerm*foreground: white
-UXTerm*loginShell: true
-UXTerm*cursorBlink: true
-UXTerm*cursorColor: grey
-UXTerm*UnderLine: true
+! Tabs
+URxvt.tabbed.tabbar-fg: 8
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg: 0
+URxvt.tabbed.tab-bg: 8
+
+! Cursor
+URxvt.cursorBlink: true
+URxvt.cursorColor: #657b83
+URxvt.cursorUnderline: false
+
+! Pointer
+URxvt.pointerBlank: true
+
+*background: #00161c
+*foreground: #657b83
+!!*fading: 40
+*fadeColor: #002b36
+*cursorColor: #93a1a1
+*pointerColorBackground: #586e75
+*pointerColorForeground: #93a1a1
+
+!! black dark/light
+*color0: #073642
+*color8: #006e8a
+
+!! red dark/light
+*color1: #dc322f
+*color9: #cb4b16
+
+!! green dark/light
+*color2: #859900
+*color10: #586e75
+
+!! yellow dark/light
+*color3: #b58900
+*color11: #657b83
+
+!! blue dark/light
+*color4: #268bd2
+*color12: #839496
+
+!! magenta dark/light
+*color5: #d33682
+*color13: #6c71c4
+
+!! cyan dark/light
+*color6: #2aa198
+*color14: #93a1a1
+
+!! white dark/light
+*color7: #eee8d5
+*color15: #fdf6e3
