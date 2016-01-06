@@ -20,6 +20,11 @@ function prompt_pwd --description 'Print the current working directory, NOT shor
 end
 
 function fish_prompt
+  if set -q VIRTUAL_ENV
+    echo -n -s (set_color purple) "@" (basename "$VIRTUAL_ENV") " "
+    set_color normal
+  end
+
   set_color $fish_color_cwd
   echo -n (prompt_pwd)
   set color normal
@@ -28,3 +33,20 @@ function fish_prompt
   set_color normal
   echo '$ '
 end
+
+# VirtualFish
+set -g VIRTUALFISH_COMPAT_ALIASES # uncomment for virtualenvwrapper-style commands
+. $HOME/.config/fish/virtualfish/virtual.fish
+# optional plugins
+. $HOME/.config/fish/virtualfish/auto_activation.fish
+. $HOME/.config/fish/virtualfish/global_requirements.fish
+. $HOME/.config/fish/virtualfish/projects.fish
+
+# Termcap colors
+set -x LESS_TERMCAP_mb (printf "\e[01;31m")
+set -x LESS_TERMCAP_md (printf "\e[01;31m")
+set -x LESS_TERMCAP_me (printf "\e[0m")
+set -x LESS_TERMCAP_se (printf "\e[0m")
+set -x LESS_TERMCAP_so (printf "\e[01;44;33m")
+set -x LESS_TERMCAP_ue (printf "\e[0m")
+set -x LESS_TERMCAP_us (printf "\e[01;32m")
