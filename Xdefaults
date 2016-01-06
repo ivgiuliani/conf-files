@@ -1,3 +1,5 @@
+! NOTE: run xrdb ~/.Xdefaults to update xterm config.
+
 ! Xft
 Xft.dpi: 96
 Xft.antialias: false
@@ -19,20 +21,24 @@ URxvt*buffered:true
 
 ! Fonts
 URxvt.allow_bold: true
-URxvt*font:xft:Ubuntu Mono:pixelsize=18:Regular
-URxvt*boldFont:xft:Ubuntu Mono:pixelsize=18:Bold
-URxvt*italicFont:xft:Ubuntu Mono:pixelsize=18:Italic
-URxvt*boldItalicfont:xft:Ubuntu Mono:pixelsize=18:Bold:Italic
+URxvt*font:xft:Ubuntu Mono:pixelsize=14:Regular
+URxvt*boldFont:xft:Ubuntu Mono:pixelsize=14:Bold
+URxvt*italicFont:xft:Ubuntu Mono:pixelsize=14:Italic
+URxvt*boldItalicfont:xft:Ubuntu Mono:pixelsize=14:Bold:Italic
+xterm*faceName:Dejavu Sans Mono:size=9:antialias=true:style=Regular
+xterm*doubleFaceName:Dejavu Sans Mono:size=9:antialias=true:Style=Bold
 
-! Fix font space
+! Fix urxvt font space
 URxvt*letterSpace: -1
 
 ! Scrollbar
 URxvt.scrollStyle: rxvt
 URxvt*scrollBar_right:true
 URxvt*scrollBar_floating:true
+xterm*rightScrollBar: true
+xterm*ScrollBar: true
 
-! Perl extensions
+! urxvt perl extensions
 URxvt.perl-ext-common: default,matcher,tabbed
 ! URxvt.matcher.button: 1
 
@@ -57,6 +63,12 @@ URxvt.pointerBlank: true
 *cursorColor: #93a1a1
 *pointerColorBackground: #586e75
 *pointerColorForeground: #93a1a1
+
+! xterm-specific config
+xterm*savelines: 4096
+! or alt+[0..9] will not work
+xterm*metaSendsEscape: true
+
 
 !! black dark/light
 *color0: #073642
