@@ -80,7 +80,8 @@ xterm*metaSendsEscape: true
 
 !! green dark/light
 *color2: #859900
-*color10: #586e75
+URxvt*color10: #586e75
+*color10: #859900
 
 !! yellow dark/light
 *color3: #b58900
@@ -88,11 +89,13 @@ xterm*metaSendsEscape: true
 
 !! blue dark/light
 *color4: #268bd2
-*color12: #839496
+URxvt*color12: #839496
+*color12: #248bd2
 
 !! magenta dark/light
 *color5: #d33682
-*color13: #6c71c4
+URxvt*color13: #6c71c4
+*color13: #d33682
 
 !! cyan dark/light
 *color6: #2aa198
