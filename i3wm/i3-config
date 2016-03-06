@@ -109,6 +109,7 @@ for_window [title="Event Tester"] floating enable  # xev
 for_window [class="Skype"] floating enable
 for_window [class="google-chrome"] border none
 for_window [class="Firefox"] border none
+for_window [class="Firefox" title="Image Viewer"] border pixel 2 floating enable
 assign [class="Skype"] → 9
 
 
