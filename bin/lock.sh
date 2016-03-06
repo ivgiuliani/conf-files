@@ -1,3 +1,3 @@
 #!/bin/bash
 # xtrlock
-i3lock -c "#000000" --dpms --ignore-empty-password
+i3lock -c "#300000" --dpms --ignore-empty-password
