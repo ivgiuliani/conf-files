@@ -124,16 +124,17 @@ bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 -time 50
 
 # Autorun list.
 exec_always /usr/bin/xrandr --dpi 275/eDP1
-exec_always /usr/bin/xrdb ~/.Xresources
 exec_always /usr/bin/xset s noexpose
 exec_always /usr/bin/xset s blank
 exec_always /usr/bin/xset +dpms
 exec_always /usr/bin/xbindkeys
 exec_always --no-startup-id /home/ivan/bin/indicator-cpufreq.sh &
 exec --no-startup-id /usr/bin/autocutsel &
+exec --no-startup-id /usr/bin/dunst &
 exec --no-startup-id /usr/bin/blueman-applet &
-exec --no-startup-id /usr/bin/gnome-settings-daemon
+exec --no-startup-id /usr/bin/gnome-settings-daemon &
 exec --no-startup-id /usr/bin/nitrogen --restore
 exec --no-startup-id /usr/bin/nm-applet
 exec --no-startup-id /usr/bin/dropbox start
+exec_always sleep 1; /usr/bin/xrdb -load ~/.Xresources
 
