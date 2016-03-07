@@ -36,7 +36,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # Change focus between tiling / floating windows.
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Alt+space focus mode_toggle
 
 # Workspaces.
 bindsym $mod+1 workspace 1
@@ -66,14 +66,13 @@ bindsym $mod+Shift+r restart
 # Exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-# resize window (you can also use the mouse for that)
-mode "resize" {
-  bindsym Left resize shrink width 10 px or 10 ppt
-  bindsym Down resize grow height 10 px or 10 ppt
-  bindsym Up resize shrink height 10 px or 10 ppt
-  bindsym Right resize grow width 10 px or 10 ppt
+set $layout_mode <b>[s]</b>tacking <b>[t]</b>abbed s<b>[p]</b>lit
+bindsym $mod+space mode "$layout_mode"
+mode "$layout_mode" {
+  bindsym s layout stacking; mode "default"
+  bindsym t layout tabbed; mode "default"
+  bindsym p layout toggle split; mode "default"
 
-  # back to normal: Enter or Escape
   bindsym Return mode "default"
   bindsym Escape mode "default"
 }
