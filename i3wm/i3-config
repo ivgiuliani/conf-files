@@ -109,6 +109,8 @@ for_window [class="Skype"] floating enable
 for_window [class="google-chrome"] border pixel 1
 for_window [class="Firefox"] border pixel 1
 for_window [class="Firefox" title="Image Viewer"] border pixel 2 floating enable
+for_window [instance="sun-awt-X11-XFramePeer"] floating enable
+for_window [class="(?i)blueman"] floating enable
 assign [class="Skype"] → 9
 
 
@@ -127,8 +129,9 @@ exec_always /usr/bin/xset s noexpose
 exec_always /usr/bin/xset s blank
 exec_always /usr/bin/xset +dpms
 exec_always /usr/bin/xbindkeys
-exec_always --no-startup-id /home/ivan/bin/indicator-cpufreq.sh
-exec --no-startup-id /usr/bin/autocutsel
+exec_always --no-startup-id /home/ivan/bin/indicator-cpufreq.sh &
+exec --no-startup-id /usr/bin/autocutsel &
+exec --no-startup-id /usr/bin/blueman-applet &
 exec --no-startup-id /usr/bin/gnome-settings-daemon
 exec --no-startup-id /usr/bin/nitrogen --restore
 exec --no-startup-id /usr/bin/nm-applet
