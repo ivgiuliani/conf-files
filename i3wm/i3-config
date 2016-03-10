@@ -66,7 +66,7 @@ bindsym $mod+Shift+r restart
 # Exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-set $layout_mode <b>[s]</b>tacking <b>[t]</b>abbed s<b>[p]</b>lit
+set $layout_mode [s]tacking [t]abbed s[p]lit
 bindsym $mod+space mode "$layout_mode"
 mode "$layout_mode" {
   bindsym s layout stacking; mode "default"
@@ -100,7 +100,7 @@ bar {
 }
 
 # Configuration for custom apps.
-for_window [class="XTerm"] border pixel 2
+for_window [class="XTerm"] border pixel 1
 for_window [class="mplayer"] floating enable
 for_window [class="mplayer"] border none
 for_window [class="Gimp"] floating enable
@@ -113,6 +113,7 @@ for_window [class="Firefox" title="Image Viewer"] border pixel 2 floating enable
 for_window [instance="sun-awt-X11-XFramePeer"] floating enable
 for_window [class="(?i)blueman"] floating enable
 for_window [class="Gitg"] floating enable
+for_window [title="Google Cast is sharing"] floating enable
 assign [class="Skype"] → 9
 
 
