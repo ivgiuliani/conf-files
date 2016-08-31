@@ -10,6 +10,7 @@ bindsym $mod+Shift+c kill
 bindsym $mod+r exec --no-startup-id dmenu_run -i -l 8 -p 'Run command:'
 bindsym $mod+f fullscreen toggle
 bindsym $mod+w exec --no-startup-id /home/ivan/development/fastmenu/fm-run.sh
+bindsym $mod+p exec --no-startup-id /home/ivan/bin/dmenu-pass
 
 # Change focus.
 bindsym $mod+Left focus left
