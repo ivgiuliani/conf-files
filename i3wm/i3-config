@@ -39,6 +39,9 @@ bindsym $mod+Shift+space floating toggle
 # Change focus between tiling / floating windows.
 bindsym $mod+Alt+space focus mode_toggle
 
+# Lock
+bindsym $mod+L exec --no-startup-id /home/ivan/bin/lock.sh
+
 # Workspaces.
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
