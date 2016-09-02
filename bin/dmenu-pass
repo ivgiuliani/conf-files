@@ -14,10 +14,10 @@ password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
 password=$(printf '%s\n' "${password_files[@]}" | dmenu \
-  -nb '#400000' \
-  -nf '#cccccc' \
-  -sb '#FFFFFF' \
-  -sf '#c00000' \
+  -nb '#300000' \
+  -nf '#CCCCCC' \
+  -sb '#FF0000' \
+  -sf '#FFFFFF' \
   -i -p 'Password Store' "$@")
 
 [[ -n $password ]] || exit
