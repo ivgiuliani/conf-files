@@ -1,0 +1,43 @@
+#!/bin/bash
+# Compatible interface with xbacklight
+
+BASE="/sys/class/backlight"
+CTRL=$(ls -1 /sys/class/backlight)
+DIR="$BASE/$CTRL"
+
+CURR=$(cat $DIR/brightness | tr -d '[[:space:]]')
+MAX=$(cat $DIR/max_brightness | tr -d '[[:space:]]')
+
+case $1 in
+  -get)
+    echo $(echo "$CURR/$MAX*100" | bc -l)
+    ;;
+  -set)
+    percentage=$2
+    new=$((($MAX / 100) * $percentage))
+
+    sudo sh -c -- "echo $new > $DIR/brightness"
+    echo $new
+    ;;
+  -inc)
+    percentage=$2
+    increase=$((($MAX / 100) * $percentage))
+    new=$(($CURR + $increase))
+    new=$(($new < $MAX ? $new : $MAX))
+
+    sudo sh -c -- "echo $new > $DIR/brightness"
+    echo $new
+    ;;
+  -dec)
+    percentage=$2
+    decrease=$((($MAX / 100) * $percentage))
+    new=$(($CURR - $decrease))
+    new=$(($new < 0 ? 0 : $new))
+
+    sudo sh -c -- "echo $new > $DIR/brightness"
+    echo $new
+    ;;
+  *)
+    $0 -get
+    ;;
+esac

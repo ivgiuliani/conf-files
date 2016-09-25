@@ -1,9 +1,9 @@
 #!/bin/bash
-xbacklight $*
+~/bin/control-backlight $*
 notify-desktop
 
 /home/ivan/bin/notify-desktop \
   -u low \
   -t 100 \
   -r 10327 \
-  `xbacklight -get | xargs printf '%.f'`
+  `~/bin/control-backlight -get | xargs printf '%.f'`
