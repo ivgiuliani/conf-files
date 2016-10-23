@@ -18,6 +18,7 @@ password=$(printf '%s\n' "${password_files[@]}" | dmenu \
   -nf '#CCCCCC' \
   -sb '#FF0000' \
   -sf '#FFFFFF' \
+  -l 8 \
   -i -p 'Password Store' "$@")
 
 [[ -n $password ]] || exit
