@@ -17,7 +17,7 @@ case $1 in
     new=$((($MAX / 100) * $percentage))
 
     sudo sh -c -- "echo $new > $DIR/brightness"
-    echo $new
+    $0 -get
     ;;
   -inc)
     percentage=$2
@@ -26,7 +26,7 @@ case $1 in
     new=$(($new < $MAX ? $new : $MAX))
 
     sudo sh -c -- "echo $new > $DIR/brightness"
-    echo $new
+    $0 -get
     ;;
   -dec)
     percentage=$2
@@ -35,7 +35,7 @@ case $1 in
     new=$(($new < 0 ? 0 : $new))
 
     sudo sh -c -- "echo $new > $DIR/brightness"
-    echo $new
+    $0 -get
     ;;
   *)
     $0 -get
