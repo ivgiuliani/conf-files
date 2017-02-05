@@ -1,4 +1,7 @@
 #!/bin/bash
+# /etc/acpi/events/lm_lid must be:
+# event=button/lid.*
+# action=/etc/acpi/this_script.sh
 CONTROL="/home/ivan/bin/control-backlight"
 TMP_FILE="/tmp/screen_brightness"
 
