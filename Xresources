@@ -1,8 +1,8 @@
 ! NOTE: run xrdb ~/.Xdefaults to update xterm config.
 
 ! Xft
-Xft.dpi: 96
-Xft.antialias: false
+Xft.dpi: 192
+!Xft.antialias: false
 Xft.rgba: rgb
 Xft.hinting: true
 Xft.hintstyle: hintslight
@@ -25,8 +25,12 @@ URxvt*font:xft:Ubuntu Mono:pixelsize=14:Regular
 URxvt*boldFont:xft:Ubuntu Mono:pixelsize=14:Bold
 URxvt*italicFont:xft:Ubuntu Mono:pixelsize=14:Italic
 URxvt*boldItalicfont:xft:Ubuntu Mono:pixelsize=14:Bold:Italic
-xterm*faceName:Dejavu Sans Mono:size=9:antialias=true:style=Regular
-xterm*doubleFaceName:Dejavu Sans Mono:size=9:antialias=true:Style=Bold
+xterm*faceName:Hack:size=10:antialias=true:style=Regular
+xterm*doubleFaceName:Hack:size=10:antialias=true:Style=Bold
+!xterm*faceName:Dejavu Sans Mono:size=10:antialias=true:style=Regular
+!xterm*doubleFaceName:Dejavu Sans Mono:size=10:antialias=true:Style=Bold
+!xterm*faceName:Ubuntu Mono:size=11:antialias=true:style=Regular
+!xterm*doubleFaceName:Ubuntu Mono:size=11:antialias=true:Style=Bold
 
 ! Fix urxvt font space
 URxvt*letterSpace: -1
@@ -50,16 +54,19 @@ URxvt.tabbed.tab-bg: 8
 
 ! Cursor
 URxvt.cursorBlink: true
+xterm*cursorBlink: true
 URxvt.cursorColor: #657b83
 URxvt.cursorUnderline: false
 
 ! Pointer
 URxvt.pointerBlank: true
 
-*background: #00100e
-*foreground: #93a1a1
+xterm*background: #00100e
+URxvt*background: #00100e
+xterm*foreground: #93a1a1
+URxvt*foreground: #93a1a1
 !!*fading: 40
-*fadeColor: #002b36
+!*fadeColor: #002b36
 *cursorColor: #93a1a1
 *pointerColorBackground: #586e75
 *pointerColorForeground: #93a1a1
