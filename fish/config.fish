@@ -2,54 +2,52 @@
 set fish_greeting
 
 # add custom scripts to $PATH
-set PATH $HOME/bin $HOME/.local/bin $PATH
+set PATH $HOME/bin $PATH
 
-# I hate gnome keyring and I don't want to use it ever again, however
-# gnome thinks I have to use it and prints stupid warnings all over my
-# output. Just get rid of it.
-set -e GNOME_KEYRING_CONTROL
+# rustup
+set PATH $HOME/.cargo/bin $PATH
+
+# As instructed by brew
+set BYOBU_PREFIX /usr/local
+
+set PYTHONPATH $PYTHONPATH /usr/local/lib/python2.7/site-packages
+
+export NVM_DIR="$HOME/.nvm"
+# /usr/local/opt/nvm/nvm.sh"
 
 . ~/.config/fish/autoenv.fish
-
-# Attempt to load the $AUTOENVFISH_FILE if there's one when loading a new terminal.
-# This is particularly useful in the context of tmux, as opening a new split or
-# workspace will spawn a new shell.
 if test -e $AUTOENVFISH_FILE
-    . $AUTOENVFISH_FILE
+  . $AUTOENVFISH_FILE
 end
 
-function prompt_pwd --description 'Print the current working directory, NOT shortened to fit the prompt'
-  printf '%s:' (hostname|cut -d . -f 1)
-  if test "$PWD" != "$HOME"
-    printf "%s" (echo $PWD|sed -e 's|/private||' -e "s|^$HOME|~|")
-  else
-    echo '~'
-  end
-  set_color normal
-end
+# rb-env
+fish_add_path $HOME/.rbenv/bin
+fish_add_path $HOME/.rbenv/shims
+rbenv rehash 2> /dev/null
 
-function fish_prompt
-  if set -q VIRTUAL_ENV
-    echo -n -s (set_color purple) "@" (basename "$VIRTUAL_ENV") " "
-    set_color normal
-  end
+# py-env
+fish_add_path $HOME/.pyenv/bin
+fish_add_path $HOME/.pyenv/shims
+pyenv rehash 2> /dev/null
+pyenv init - | source
 
-  set_color $fish_color_cwd
-  echo -n (prompt_pwd)
-  set color normal
+# golang
+set PATH /usr/local/go/bin $PATH
+set GOPATH /Users/ivan/.go
+export GOPATH=/Users/ivan/.go
+set PATH $GOPATH/bin $PATH
 
-  echo -n (__fish_git_prompt)
-  set_color normal
-  echo '$ '
-end
+# Fixes python issues with OSX
+# https://stackoverflow.com/a/52230415
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY="YES"
 
-# VirtualFish
-set -g VIRTUALFISH_COMPAT_ALIASES # uncomment for virtualenvwrapper-style commands
-. $HOME/.config/fish/virtualfish/virtual.fish
-# optional plugins
-. $HOME/.config/fish/virtualfish/auto_activation.fish
-. $HOME/.config/fish/virtualfish/global_requirements.fish
-. $HOME/.config/fish/virtualfish/projects.fish
+# PlatformIO
+set PATH $HOME/.platformio/penv/bin $PATH
+
+export AWS_ENDPOINT_URL=https://s.bitset.io
+export AWS_ACCESS_KEY_ID=hEkH2DEq9PUX3H23mroX
+export AWS_SECRET_ACCESS_KEY=vmh3OUcibdyPPhrKGch0xvCSnooXTQrEw7zuOp7S
+export AWS_DEFAULT_REGION=us-west-2
 
 # Termcap colors
 set -x LESS_TERMCAP_mb (printf "\e[01;31m")
@@ -59,3 +57,24 @@ set -x LESS_TERMCAP_se (printf "\e[0m")
 set -x LESS_TERMCAP_so (printf "\e[01;44;33m")
 set -x LESS_TERMCAP_ue (printf "\e[0m")
 set -x LESS_TERMCAP_us (printf "\e[01;32m")
+
+set -g theme_title_use_abbreviated_path no
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+set --export --prepend PATH "/Users/ivan/.rd/bin"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# Tide prompt
+set --global tide_left_prompt_items pwd git character
+set --global tide_right_prompt_items #go java python ruby zig rustc
+
+# Start zellij on startup
+set -x ZELLIJ_AUTO_ATTACH true
+set -x ZELLIJ_AUTO_EXIT true
+if status is-interactive
+  eval (zellij setup --generate-auto-start fish | string collect)
+end
+
+# Forces the autoload of zellij utils
+zellij_utils
+zellij_update_tabname
