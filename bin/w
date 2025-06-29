@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -xeuo pipefail
+
+WTREE=$1
+
+if [ ! -d "${WTREE}" ]; then
+  git worktree add ${WTREE}
+fi
+
+pushd ${WTREE}
+  zellij action new-tab --name ${WTREE} -l ${HOME}/.config/zellij/layouts/ai-worktree.kdl
+popd
+
