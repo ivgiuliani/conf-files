@@ -1,0 +1,35 @@
+macos-option-as-alt = true
+macos-titlebar-style = hidden
+
+keybind = alt+2=text:€
+keybind = alt+3=text:#
+keybind = alt+e=text:€
+keybind = alt+left=unbind
+keybind = alt+right=unbind
+
+keybind = super+up=unbind
+keybind = super+down=unbind
+keybind = super+left=unbind
+keybind = super+right=unbind
+keybind = super+shift+up=unbind
+keybind = super+shift+down=unbind
+keybind = super+shift+left=unbind
+keybind = super+shift+right=unbind
+
+keybind = super+page_up=unbind
+keybind = shift+page_up=unbind
+keybind = super+page_down=unbind
+keybind = shift+page_down=unbind
+
+font-family = Hack Nerd Font
+#font-family = Comic Mono
+font-size = 12
+adjust-cell-width = -1
+
+cursor-style-blink = true
+cursor-color = 30a030
+adjust-cursor-thickness = 4
+
+quit-after-last-window-closed = true
+copy-on-select = true
+keybind = shift+enter=text:\n
