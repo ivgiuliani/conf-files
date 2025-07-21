@@ -1,3 +1,3 @@
 function z
-  zellij -l welcome $argv
+  eval (zellij setup --generate-auto-start fish | string collect)
 end
