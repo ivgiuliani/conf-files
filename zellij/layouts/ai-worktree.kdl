@@ -1,13 +1,17 @@
 layout {
+    floating_panes {
+        pane name="AI" command="claude" start_suspended=true {
+            x "50%"
+            y "40%"
+            width "45%"
+            height "40%"
+        }
+    }
+
     pane size=1 borderless=true {
         plugin location="tab-bar"
     }
-
-    pane split_direction="vertical" {
-        pane command="gemini" size="35%"
-        pane
-    }
-
+    pane
     pane size=1 borderless=true {
         plugin location="status-bar"
     }
