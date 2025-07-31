@@ -1,0 +1,4 @@
+[alias]
+  wt = worktree
+  rank = shortlog -sn --no-merges
+  tree = log --all --graph --decorate --oneline
