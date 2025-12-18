@@ -3,34 +3,35 @@ set shell=/bin/bash
 
 " Use Vim defaults instead of 100% vi compatibility
 set nocompatible
-set background=dark
 " more powerful backspacing
 set backspace=indent,eol,start
-set hlsearch
 set backupcopy=no
 set autoindent
 set textwidth=0
 set history=50
 set incsearch
+set hlsearch
 set ignorecase
 set showmatch
 set splitright
-set smartindent
 set omnifunc=syntaxcomplete#Complete
 set ofu=syntaxcomplete#Complete
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set smarttab
+set softtabstop=2
 filetype plugin on
 filetype indent on
 colorscheme desert
-
-" Wrap long lines.
-:set wrap
-:set linebreak
-:set nolist  " list disables linebreak
+"let g:solarized_termcolors=256
+"colorscheme solarized
+set background=dark
 
 " binding for tabs
 map <C-t> :tabnew<CR>
-map [ :tabp<CR>
-map ] :tabn<CR>
+map <M-left> :tabp<CR>
+map <M-right> :tabn<CR>
 
 " Map + and - (and < and >) to resize split (vsplit)
 if bufwinnr(1)
@@ -40,20 +41,14 @@ if bufwinnr(1)
 	map > <c-w>>
 endif
 
-" Enable the ruler (shows the line and column number of the cursor position)
+" enable ruler
 set ruler
 " enable command autocompleting (like bash)
 set wildmode=longest,list
 syntax on
 
 " Map F5 to show line's numbers
-:map <F5> :if &number == 1 <Bar>
-     \   exec 'set nonumber' <Bar>
-     \   echo 'Nonumber' <Bar>
-     \ else <Bar>
-     \   exec 'set number' <Bar>
-     \   echo 'Number' <Bar>
-     \ endif <CR>
+:nnoremap <F5> :set nonumber!<CR>:set foldcolumn=0<CR>
 
 " Map F6 to enable/disable syntax highlighting
 :map <F6> :if exists("syntax_on") <Bar>
@@ -73,20 +68,9 @@ syntax on
      \   echo "Paste" <Bar>
      \ endif <CR>
 
-" spellchecker
-" setlocal spell spelllang=it_IT
-" set spell
-
-" viewpdf in vim
-autocmd BufReadPre *.pdf set ro
-autocmd BufReadPost *.pdf %!pdftotext -nopgbrk "%" - 
-
 " File editing (set tab as 4 spaces for .py and .java)
-autocmd FileType * set tabstop=2|set shiftwidth=2|set expandtab 
+autocmd FileType * set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
 autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab|set smarttab|set softtabstop=4
-autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
-autocmd FileType php set tabstop=4|set shiftwidth=4|set expandtab|set smarttab|set softtabstop=4
-autocmd FileType matlab set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
 autocmd FileType c set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
 autocmd FileType cpp set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
 autocmd FileType java set tabstop=4|set shiftwidth=4|set expandtab|set smarttab|set softtabstop=4
@@ -94,8 +78,16 @@ autocmd FileType haskell set tabstop=8|set shiftwidth=8|set expandtab|set smartt
 autocmd FileType tex set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
 autocmd FileType html set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
 autocmd FileType htmldjango set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
-autocmd FileType prolog set tabstop=8|set softtabstop=8|set shiftwidth=8|set noexpandtab|set smarttab
-autocmd FileType sql set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
+autocmd FileType rst set tabstop=1|set shiftwidth=1|set expandtab|set smarttab|set softtabstop=1
+autocmd FileType matlab set tabstop=2|set shiftwidth=2|set expandtab|set smarttab|set softtabstop=2
+autocmd FileType prolog set tabstop=8|set shiftwidth=8|set expandtab|set smarttab|set softtabstop=8
+
+" Remove trailing whitespaces when it makes sense
+autocmd FileType c autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+autocmd FileType cpp autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+autocmd FileType java autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+
+au! BufNewFile,BufRead *.csv setf csv
 
 " Omnicomplete
 set completeopt=longest,menuone
@@ -106,8 +98,5 @@ inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
   \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
 
-" let g:pydiction_location = '~/.vim/after/ftplugin/complete-dict'
-" let g:pydiction_menu_height = 20
-
+execute pathogen#infect()
