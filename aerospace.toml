@@ -161,10 +161,14 @@ automatically-unhide-macos-hidden-apps = true
     run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
+    if.app-id = 'com.microsoft.VSCode'
+    run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
     run = 'move-node-to-workspace 7'
 
-[[[on-window-detected]]
+[[on-window-detected]]
     if.app-id = 'com.apple.systempreferences'
     run = ['layout floating']
 
