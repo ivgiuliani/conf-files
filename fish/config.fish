@@ -1,5 +1,6 @@
 set -g fish_greeting
 set -g theme_title_use_abbreviated_path no
+set -g fish_key_bindings fish_default_key_bindings
 
 # Global settings
 # --------------------------------
