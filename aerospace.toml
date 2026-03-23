@@ -51,12 +51,12 @@ automatically-unhide-macos-hidden-apps = true
     outer.right =      0
 
 [workspace-to-monitor-force-assignment]
-    1 = ['secondary', 'built-in']
-    2 = ['secondary', 'built-in']
-    3 = ['secondary', 'built-in']
-    4 = ['secondary', 'built-in']
-    5 = ['secondary', 'built-in']
-    6 = ['secondary', 'built-in']
+    1 = ['main', 'secondary', 'built-in']
+    2 = ['main', 'secondary', 'built-in']
+    3 = ['main', 'secondary', 'built-in']
+    4 = ['main', 'secondary', 'built-in']
+    5 = ['main', 'secondary', 'built-in']
+    6 = ['main', 'secondary', 'built-in']
     7 = 'built-in'
     8 = 'built-in'
     9 = 'built-in'
@@ -166,7 +166,7 @@ automatically-unhide-macos-hidden-apps = true
 
 [[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
-    run = 'move-node-to-workspace 7'
+    run = 'move-node-to-workspace 8'
 
 [[on-window-detected]]
     if.app-id = 'com.apple.systempreferences'

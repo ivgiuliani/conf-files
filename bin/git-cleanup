@@ -1,0 +1,240 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YES=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --yes)     YES=true ;;
+    -h|--help)
+      echo "Usage: $0 [--yes]"
+      echo "  --yes  Skip confirmation prompt and auto-delete stale branches"
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $arg" >&2
+      exit 1
+      ;;
+  esac
+done
+
+GRAY='\033[0;90m'
+CYAN='\033[0;36m'
+CYAN_DIM='\033[2;36m'
+YELLOW='\033[0;33m'
+YELLOW_DIM='\033[2;33m'
+GREEN='\033[0;32m'
+GREEN_DIM='\033[2;32m'
+RED='\033[0;31m'
+RED_DIM='\033[2;31m'
+DIM='\033[2m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+# Build branch → worktree-path map from porcelain output
+declare -A WORKTREE_MAP
+current_wt=""
+while IFS= read -r line; do
+  if [[ "$line" =~ ^worktree\ (.+) ]]; then
+    current_wt="${BASH_REMATCH[1]}"
+  elif [[ "$line" =~ ^branch\ refs/heads/(.+) ]]; then
+    WORKTREE_MAP["${BASH_REMATCH[1]}"]="$current_wt"
+  fi
+done < <(git worktree list --porcelain)
+
+# Collect all local branches except main and the current branch
+current_branch=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+branches=()
+while IFS= read -r branch; do
+  [[ "$branch" == "$current_branch" ]] && continue
+  [[ "$branch" == "main" ]] && continue
+  branches+=("$branch")
+done < <(git branch --format='%(refname:short)')
+
+if [[ ${#branches[@]} -eq 0 ]]; then
+  echo "No branches to inspect (only main and current branch exist)."
+  exit 0
+fi
+
+# Fetch PR data for all branches in parallel
+PR_CACHE=$(mktemp -d)
+trap 'rm -rf "$PR_CACHE"' EXIT
+
+for branch in "${branches[@]}"; do
+  (
+    safe_name="${branch//\//__}"
+    gh pr list --head "$branch" --state all --json number,state --limit 1 2>/dev/null \
+      > "$PR_CACHE/$safe_name" || echo "[]" > "$PR_CACHE/$safe_name"
+  ) &
+done
+
+# Spinner while waiting for API calls
+spinner_frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+frame=0
+total=${#branches[@]}
+while true; do
+  done_count=$(ls "$PR_CACHE" 2>/dev/null | wc -l | tr -d ' ')
+  printf "\r${DIM}%s Fetching PR status… %s/%s${RESET}" "${spinner_frames[$((frame % ${#spinner_frames[@]}))]}" "$done_count" "$total"
+  # Check if all background jobs finished
+  if ! jobs %% &>/dev/null 2>&1; then
+    break
+  fi
+  ((frame++)) || true
+  sleep 0.08
+done
+wait
+printf "\r\033[2K"
+
+# Classify each branch and collect output data
+declare -a stale_branches=()
+declare -a row_branches=()
+declare -a row_suffixes=()
+declare -a row_wts=()
+declare -a row_colors=()
+declare -a row_suffix_colors=()
+declare -a row_is_stale=()
+active_count=0
+open_count=0
+stale_count=0
+max_branch_len=0
+max_suffix_len=0
+
+cwd="$(pwd)"
+for branch in "${branches[@]}"; do
+  wt="${WORKTREE_MAP[$branch]:-}"
+
+  safe_name="${branch//\//__}"
+  pr_json=$(cat "$PR_CACHE/$safe_name")
+  pr_number=$(echo "$pr_json" | jq -r '.[0].number // empty')
+  pr_state=$(echo "$pr_json" | jq -r '.[0].state // empty')
+
+  if [[ -z "$pr_number" ]]; then
+    suffix=""
+    branch_color="$CYAN"
+    suffix_color=""
+    ((active_count++)) || true
+  elif [[ "$pr_state" == "OPEN" ]]; then
+    suffix="#$pr_number open"
+    branch_color="$YELLOW"
+    suffix_color="$YELLOW_DIM"
+    ((open_count++)) || true
+  elif [[ "$pr_state" == "MERGED" ]]; then
+    suffix="#$pr_number merged"
+    branch_color="$GREEN"
+    suffix_color="$GREEN_DIM"
+    stale_branches+=("$branch")
+    ((stale_count++)) || true
+  else
+    suffix="#$pr_number closed"
+    branch_color="$RED"
+    suffix_color="$RED_DIM"
+    stale_branches+=("$branch")
+    ((stale_count++)) || true
+  fi
+
+  rel_wt=""
+  if [[ -n "$wt" ]]; then
+    rel_wt="${wt#"$cwd/"}"
+  fi
+
+  # Track whether this branch is stale (merged or closed)
+  is_stale=false
+  if [[ ${#stale_branches[@]} -gt 0 && "${stale_branches[-1]}" == "$branch" ]]; then
+    is_stale=true
+  fi
+
+  row_branches+=("$branch")
+  row_suffixes+=("$suffix")
+  row_wts+=("$rel_wt")
+  row_colors+=("$branch_color")
+  row_suffix_colors+=("$suffix_color")
+  row_is_stale+=("$is_stale")
+
+  if (( ${#branch} > max_branch_len )); then
+    max_branch_len=${#branch}
+  fi
+  if (( ${#suffix} > max_suffix_len )); then
+    max_suffix_len=${#suffix}
+  fi
+done
+
+# prefix_width: "(!/+) " = 6 is the max, pad all rows to that
+prefix_width=6
+col2=$(( prefix_width + max_branch_len + 2 ))
+
+for i in "${!row_branches[@]}"; do
+  branch="${row_branches[$i]}"
+  suffix="${row_suffixes[$i]}"
+  rel_wt="${row_wts[$i]}"
+  color="${row_colors[$i]}"
+  suffix_color="${row_suffix_colors[$i]}"
+  is_stale="${row_is_stale[$i]}"
+  has_wt=$([[ -n "$rel_wt" ]] && echo true || echo false)
+
+  # Build status indicator: (!/+), (!), (+), or empty
+  if [[ "$is_stale" == "true" && "$has_wt" == "true" ]]; then
+    prefix="${GRAY}(${RESET}${RED}!${RESET}${GRAY}/${RESET}${color}+${RESET}${GRAY})${RESET} "
+    visible_prefix=6
+  elif [[ "$is_stale" == "true" ]]; then
+    prefix="${GRAY}(${RESET}${RED}!${RESET}${GRAY})${RESET} "
+    visible_prefix=4
+  elif [[ "$has_wt" == "true" ]]; then
+    prefix="${GRAY}(${RESET}${color}+${RESET}${GRAY})${RESET} "
+    visible_prefix=4
+  else
+    prefix=""
+    visible_prefix=0
+  fi
+
+  prefix_pad=$(( prefix_width - visible_prefix ))
+  prefix_padding=$(printf '%*s' "$prefix_pad" "")
+
+  # Pad branch name to align suffix column
+  line="${prefix_padding}${prefix}${color}${branch}${RESET}"
+  pad1=$(( col2 - prefix_width - ${#branch} ))
+  padding1=$(printf '%*s' "$pad1" "")
+
+  # Pad suffix to align worktree column
+  pad2=$(( max_suffix_len - ${#suffix} + 2 ))
+  padding2=$(printf '%*s' "$pad2" "")
+
+  if [[ -n "$rel_wt" ]]; then
+    printf "%b%s${suffix_color}%s${RESET}%s${DIM}(%s)${RESET}\n" "$line" "$padding1" "$suffix" "$padding2" "$rel_wt"
+  elif [[ -n "$suffix" ]]; then
+    printf "%b%s${suffix_color}%s${RESET}\n" "$line" "$padding1" "$suffix"
+  else
+    printf "%b\n" "$line"
+  fi
+done
+
+printf "\n${BOLD}Summary:${RESET} %d active, %d open, %d stale  (total: %d)\n" \
+  "$active_count" "$open_count" "$stale_count" "${#branches[@]}"
+
+if [[ $stale_count -eq 0 ]]; then
+  echo "Nothing to clean up."
+  exit 0
+fi
+
+if [[ "$YES" != true ]]; then
+  echo ""
+  printf "Delete %d stale branch(es) and their worktrees? [y/N] " "$stale_count"
+  read -r answer
+  if [[ "$answer" != [yY] ]]; then
+    echo "Aborted."
+    exit 0
+  fi
+fi
+
+echo ""
+for branch in "${stale_branches[@]}"; do
+  wt="${WORKTREE_MAP[$branch]:-}"
+  if [[ -n "$wt" ]]; then
+    echo "Removing worktree: $wt"
+    git worktree remove --force "$wt" 2>/dev/null || echo "  (worktree already gone)"
+  fi
+  echo "Deleting branch: $branch"
+  git branch -D "$branch"
+done
+
+echo ""
+echo "Done. Removed $stale_count stale branch(es)."
