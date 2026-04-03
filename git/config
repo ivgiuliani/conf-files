@@ -1,4 +1,31 @@
+[user]
+  email = ivan@lunos.ai
+  name = Ivan Giuliani
 [alias]
+  st = status -sb
+  ci = commit
+  co = checkout
+  cp = cherry-pick
+  logs = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+  logl = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --graph
+  ls = ls-files
   wt = worktree
   rank = shortlog -sn --no-merges
   tree = log --all --graph --decorate --oneline
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+[core]
+  editor = vim
+  autocrlf = false
+  safecrlf = true
+  excludesfile = ~/.gitignore
+[apply]
+  whitespace = fix
+[push]
+  default = simple
+[pull]
+  rebase = true
+[rebase]
+  autosquash = true
