@@ -7,6 +7,11 @@ keybind = alt+e=text:€
 keybind = alt+left=unbind
 keybind = alt+right=unbind
 
+#bindkey "^[[1;3D" backward-word # Alt + Left
+#bindkey "^[[1;3C" forward-word  # Alt + Right
+#keybind = ctrl+left=esc:b
+#keybind = ctrl+right=esc:f
+
 keybind = super+up=unbind
 keybind = super+down=unbind
 keybind = super+left=unbind
@@ -21,9 +26,9 @@ keybind = shift+page_up=unbind
 keybind = super+page_down=unbind
 keybind = shift+page_down=unbind
 
-font-family = Hack Nerd Font
-#font-family = Comic Mono
-font-size = 12
+font-family = ""
+font-family = "JetBrains Mono"
+font-size = 11
 adjust-cell-width = -1
 
 cursor-style-blink = true
@@ -33,3 +38,5 @@ adjust-cursor-thickness = 4
 quit-after-last-window-closed = true
 copy-on-select = true
 keybind = shift+enter=text:\n
+
+notify-on-command-finish=unfocused
